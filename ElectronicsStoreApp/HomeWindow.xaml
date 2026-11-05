@@ -1,0 +1,140 @@
+﻿<Window x:Class="WpfApp2.HomeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Style="{StaticResource MaterialDesignWindow}"
+        Title="Магазин электроники" Height="750" Width="1200"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" Margin="0,0,0,15">
+            <TextBlock Name="ProfileText" FontSize="20" FontWeight="Bold" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right">
+                <Button Content="Аккаунт" Padding="15,5" Margin="0,0,10,0" Click="AccountClick" 
+                        Style="{StaticResource MaterialDesignFlatButton}"/>
+                <Button Content="Выйти" Padding="15,5" Click="LogoutClick" 
+                        Style="{StaticResource MaterialDesignFlatButton}"/>
+            </StackPanel>
+        </DockPanel>
+
+        <TabControl Grid.Row="1">
+            <TabItem Header="Каталог товаров">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Name="AdminPanel" Orientation="Horizontal" Margin="0,0,0,15" Visibility="Collapsed">
+                        <Button Content="Добавить товар" Padding="15,6" Margin="0,0,10,0" Click="AddProductClick" 
+                                Style="{StaticResource MaterialDesignRaisedButton}"/>
+                        <Button Content="Редактировать" Padding="15,6" Margin="0,0,10,0" Click="EditProductClick" 
+                                Style="{StaticResource MaterialDesignOutlinedButton}"/>
+                        <Button Content="Удалить" Padding="15,6" Click="DeleteProductClick" 
+                                Style="{StaticResource MaterialDesignOutlinedButton}" Background="#FFCD5C5C" Foreground="White"/>
+                    </StackPanel>
+
+                    <DataGrid Name="ProductsGrid" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" 
+                              materialDesign:DataGridAssist.CellPadding="13 8 8 8">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                            <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="250"/>
+                            <DataGridTextColumn Header="Категория" Binding="{Binding Category}" Width="150"/>
+                            <DataGridTextColumn Header="Цена" Binding="{Binding Price, StringFormat={}{0:N2} ₽}" Width="120"/>
+                            <DataGridTextColumn Header="На складе" Binding="{Binding StockQuantity}" Width="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Оформить заказ">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.5*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                        <TextBlock Text="Добавление товара" FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                            <ComboBox Name="ProductComboBox" Width="250" DisplayMemberPath="Name" 
+                                      Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                      materialDesign:HintAssist.Hint="Выберите товар"/>
+
+                            <TextBox Name="QuantityBox" Width="80" Margin="15,0,0,0" Text="1" Padding="10"
+                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                     materialDesign:HintAssist.Hint="Кол-во"/>
+
+                            <Button Content="Добавить" Padding="15,4" Margin="15,0,0,0" Click="AddToCartClick"
+                                    Style="{StaticResource MaterialDesignRaisedButton}"/>
+                        </StackPanel>
+
+                        <DataGrid Name="CartGrid" AutoGenerateColumns="False" IsReadOnly="True" Height="350"
+                                  materialDesign:DataGridAssist.CellPadding="13 8 8 8">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Товар" Binding="{Binding ProductName}" Width="200"/>
+                                <DataGridTextColumn Header="Кол-во" Binding="{Binding Quantity}" Width="80"/>
+                                <DataGridTextColumn Header="Цена за шт." Binding="{Binding PricePerUnit, StringFormat={}{0:N2} ₽}" Width="120"/>
+                                <DataGridTextColumn Header="Сумма" Binding="{Binding TotalPrice, StringFormat={}{0:N2} ₽}" Width="120"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Margin="20,0,0,0">
+                        <TextBlock Text="Данные заказа" FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
+
+                        <Label Content="Клиент"/>
+                        <ComboBox Name="ClientComboBox" DisplayMemberPath="FullName" 
+                                  Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                  materialDesign:HintAssist.Hint="Выберите клиента"/>
+
+                        <TextBlock Text="Итого к оплате:" FontSize="16" Margin="0,30,0,5"/>
+                        <TextBlock Name="TotalPriceText" Text="0,00 ₽" FontSize="32" FontWeight="Black" Foreground="#FF2E8B57"/>
+
+                        <Button Content="Оформить заказ" Padding="20,10" Margin="0,30,0,0" Click="CheckoutClick"
+                                Style="{StaticResource MaterialDesignRaisedButton}"/>
+
+                        <Button Content="Очистить корзину" Padding="20,10" Margin="0,10,0,0" Click="ClearCartClick"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="История заказов">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="200"/>
+                    </Grid.RowDefinitions>
+
+                    <DataGrid Name="OrdersGrid" AutoGenerateColumns="False" IsReadOnly="True" 
+                              SelectionChanged="OrdersGrid_SelectionChanged"
+                              materialDesign:DataGridAssist.CellPadding="13 8 8 8">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID заказа" Binding="{Binding Id}" Width="80"/>
+                            <DataGridTextColumn Header="Клиент" Binding="{Binding Clients.FullName}" Width="200"/>
+                            <DataGridTextColumn Header="Дата" Binding="{Binding OrderDate, StringFormat=dd.MM.yyyy HH:mm}" Width="150"/>
+                            <DataGridTextColumn Header="Сумма" Binding="{Binding TotalAmount, StringFormat={}{0:N2} ₽}" Width="120"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <GroupBox Grid.Row="1" Header="Состав заказа" Margin="0,10,0,0">
+                        <DataGrid Name="OrderDetailsGrid" AutoGenerateColumns="False" IsReadOnly="True"
+                                  materialDesign:DataGridAssist.CellPadding="13 8 8 8">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Товар" Binding="{Binding Products.Name}" Width="250"/>
+                                <DataGridTextColumn Header="Кол-во" Binding="{Binding Quantity}" Width="100"/>
+                                <DataGridTextColumn Header="Цена за шт." Binding="{Binding PricePerUnit, StringFormat={}{0:N2} ₽}" Width="150"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

@@ -1,0 +1,30 @@
+﻿<Window x:Class="WpfApp2.ProductEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Style="{StaticResource MaterialDesignWindow}"
+        Title="Товар" Height="500" Width="400"
+        WindowStartupLocation="CenterOwner">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="30">
+            <TextBlock Name="TitleText" Text="Добавление товара" FontSize="22" FontWeight="Bold" Margin="0,0,0,20"/>
+
+            <Label Content="Название"/>
+            <TextBox Name="NameBox" Padding="10" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Введите название"/>
+
+            <Label Content="Категория" Margin="0,10,0,0"/>
+            <TextBox Name="CategoryBox" Padding="10" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Введите категорию"/>
+
+            <Label Content="Цена" Margin="0,10,0,0"/>
+            <TextBox Name="PriceBox" Padding="10" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Введите цену"/>
+
+            <Label Content="Количество на складе" Margin="0,10,0,0"/>
+            <TextBox Name="StockBox" Padding="10" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Введите количество"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,30,0,0">
+                <Button Content="Сохранить" Padding="20,8" Margin="5" Click="SaveClick" Style="{StaticResource MaterialDesignRaisedButton}"/>
+                <Button Content="Отмена" Padding="20,8" Margin="5" Click="CancelClick" Style="{StaticResource MaterialDesignOutlinedButton}"/>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Window>
